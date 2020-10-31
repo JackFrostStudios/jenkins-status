@@ -22,7 +22,7 @@ customElements.define('jfs-jenkins-status', class extends HTMLElement {
                             <h2>No Project Configured</h2>
                         </div>
                         <div class="tab-pane fade" id="server-settings" role="tabpanel" aria-labelledby="server-settings-tab">
-                            <h2>Settings</h2>
+                            <jfs-jenkins-server-settings></jfs-jenkins-server-settings>
                         </div>
                     </div>
                 </div>
