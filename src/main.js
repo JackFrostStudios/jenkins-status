@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron')
+require('./main/services/_services');
 
 function createWindow () {
   const win = new BrowserWindow({

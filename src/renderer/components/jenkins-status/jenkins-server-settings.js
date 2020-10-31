@@ -1,9 +1,11 @@
+const settingsService = require('../../services/settings.service');
+
 customElements.define('jfs-jenkins-server-settings', class extends HTMLElement {    
     constructor() {
         super();
     }
     
-    connectedCallback() {
+    async connectedCallback() {
         this.innerHTML = `
             <form id="jfs-server-settings-form">
                 <div class="row">
@@ -32,12 +34,24 @@ customElements.define('jfs-jenkins-server-settings', class extends HTMLElement {
 
         const form = document.querySelector('#jfs-server-settings-form');
         form.addEventListener("submit", this._onFormSubmit, true);
+        let settings = await settingsService.getServerSettings();
+        this._setFormValues(settings);
     }
 
+    
     
     disconnectedCallback() {
         const form = document.querySelector('#jfs-server-settings-form');
         form.removeEventListener("submit", this._onFormSubmit, true);
+    }
+    
+    _setFormValues({url, username, password}) {
+        const urlInput = document.querySelector('#jenkins-settings-url');
+        const userNameInput = document.querySelector('#jenkins-settings-username');
+        const passwordInput = document.querySelector('#jenkins-settings-password');
+        urlInput.value = url;
+        userNameInput.value = username;
+        passwordInput.value = password;
     }
 
     _onFormSubmit(evt) {
@@ -50,6 +64,6 @@ customElements.define('jfs-jenkins-server-settings', class extends HTMLElement {
             username: userNameInput.value,
             password: passwordInput.value
         }
-        console.log(settings);
+        settingsService.setServerSettings(settings);
     }
 });
