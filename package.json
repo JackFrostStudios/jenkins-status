@@ -4,7 +4,8 @@
   "description": "Electron App to report on Jenkins Build Status",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron-forge start -- --DEV",
+    "start-prod": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
@@ -23,6 +24,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^6.0.1",
     "jquery": "^3.5.1",
+    "keytar": "^7.0.0",
     "popper.js": "^1.16.1"
   },
   "config": {

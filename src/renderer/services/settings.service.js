@@ -1,13 +1,11 @@
 const ipcService = require('./ipc.service');
-
-const setServerSettingsChannel = "set-server-settings";
-const getServerSettingsChannel = "get-server-settings";
+const ipcChannels = require('../../common/ipc-channels');
 
 exports.getServerSettings = async () => {
-    let settings = await ipcService.invoke(getServerSettingsChannel);
+    let settings = await ipcService.invoke(ipcChannels.getServerSettingsChannel);
     return settings;
 };
 
 exports.setServerSettings = settings => {
-    ipcService.invoke(setServerSettingsChannel, settings);
+    ipcService.invoke(ipcChannels.setServerSettingsChannel, settings);
 };

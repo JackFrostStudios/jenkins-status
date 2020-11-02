@@ -1,17 +1,23 @@
-const { app, BrowserWindow } = require('electron')
-require('./main/services/_services');
+require('./main/services/_services.ipc');
+const { app, BrowserWindow } = require('electron');
+const environmentService = require('./main/services/environment.service');
 
 function createWindow () {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    show: false,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      additionalArguments: [`--DEV=${environmentService.isDevMode()}`]
     }
   })
   
   win.loadFile('src/index.html')
-  win.webContents.openDevTools()
+  win.once('ready-to-show', () => {
+    win.show()
+    win.webContents.openDevTools()
+  })
 }
 
 app.whenReady().then(createWindow)

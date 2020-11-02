@@ -1,22 +1,16 @@
 const localStore = require('./local-store.service');
-const ipc = require('./ipc.service');
+const secureStore = require('./secure-store.service');
 
-const setServerSettingsChannel = "set-server-settings";
-const getServerSettingsChannel = "get-server-settings";
 const serverSettingsStoreKey = "server-settings";
+const serverSettingsPasswordKey = "jenkins-server-password";
 
-const saveServerSettings = (settings) => {
-    localStore.set(serverSettingsStoreKey, settings);
+exports.saveServerSettings = ({url, username, password}) => {
+    localStore.set(serverSettingsStoreKey, {url, username});
+    secureStore.set(serverSettingsPasswordKey, password);
 }
 
-const getServerSettings = () => {
-    return localStore.get(serverSettingsStoreKey);
+exports.getServerSettings = async () => {
+    let settings = localStore.get(serverSettingsStoreKey);
+    settings.password = await secureStore.get(serverSettingsPasswordKey);
+    return settings;
 }
-
-ipc.handle(setServerSettingsChannel, (event, args) => {
-    saveServerSettings(args);
-});
-
-ipc.handle(getServerSettingsChannel, (event, args) => {
-    return getServerSettings();
-});
