@@ -1,6 +1,6 @@
 require('./main/services/_services.ipc');
 const { app, BrowserWindow } = require('electron');
-const environmentService = require('./main/services/environment.service');
+const environmentService = require('./main/services/environment/environment.service');
 
 function createWindow () {
   const win = new BrowserWindow({

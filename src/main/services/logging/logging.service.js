@@ -1,4 +1,4 @@
-const environmentService = require('./environment.service');
+const environmentService = require('../environment/environment.service');
 
 exports.log = (data) => {
     if (environmentService.isDevMode()) {

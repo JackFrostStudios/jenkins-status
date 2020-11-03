@@ -1,4 +1,4 @@
-const settingsService = require('../../services/settings.service');
+const settingsService = require('../../../services/settings.service');
 
 customElements.define('jfs-jenkins-server-settings', class extends HTMLElement {    
     get $form() {
@@ -55,7 +55,7 @@ customElements.define('jfs-jenkins-server-settings', class extends HTMLElement {
                             <div id="jenkins-settings-submit-save-btn-text">
                                 Save
                             </div>
-                            <div id="jenkins-settings-submit-saving-btn-text" style="display: none;">
+                            <div id="jenkins-settings-submit-saving-btn-text">
                                 <span class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>
                                 Saving...
                             <div>

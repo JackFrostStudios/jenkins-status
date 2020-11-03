@@ -1,5 +1,5 @@
 const { ipcMain } = require('electron')
-const loggingService = require('./logging.service');
+const loggingService = require('../logging/logging.service');
 
 exports.handle = (channel, callback) => {
     ipcMain.handle(channel, async (event, args) => {

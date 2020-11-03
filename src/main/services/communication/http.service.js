@@ -1,5 +1,5 @@
 const { net } = require('electron')
-const loggingService = require('./logging.service');
+const loggingService = require('../logging/logging.service');
 
 const getStatusCodeMessage = (statusCode) => {
     switch (statusCode) {
