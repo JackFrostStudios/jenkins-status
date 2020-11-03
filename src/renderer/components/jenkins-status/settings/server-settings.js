@@ -144,7 +144,7 @@ customElements.define('jfs-jenkins-server-settings', class extends HTMLElement {
         evt.preventDefault();
         this._startSave();
         const settings = this._getFormValues();
-        let validation = await settingsService.validateSettings(settings);
+        let validation = await settingsService.validateServerSettings(settings);
         if (validation.valid) {
             settingsService.setServerSettings(settings);
         }

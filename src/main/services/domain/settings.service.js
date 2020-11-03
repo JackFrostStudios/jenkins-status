@@ -4,17 +4,19 @@ const jenkinsService = require('./jenkins.service');
 
 const serverSettingsStoreKey = "server-settings";
 const serverSettingsPasswordKey = "jenkins-server-password";
+const jobSettingsStoreKey = "job-settings";
 
-let cachedSettings = null;
+let cachedServerSettings = null;
+let cachedJobSettings = null;
 
-exports.saveServerSettings = ({url, username, password}) => {
-    localStore.set(serverSettingsStoreKey, {url, username});
-    secureStore.set(serverSettingsPasswordKey, password);
-    cachedSettings = {url, username, password};
+exports.saveServerSettings = async ({url, username, password}) => {
+    await localStore.set(serverSettingsStoreKey, {url, username});
+    await secureStore.set(serverSettingsPasswordKey, password);
+    cachedServerSettings = {url, username, password};
 }
 
 exports.getServerSettings = async () => {
-    if (cachedSettings) return cachedSettings;
+    if (cachedServerSettings) return cachedServerSettings;
     let settings = localStore.get(serverSettingsStoreKey);
     settings.password = await secureStore.get(serverSettingsPasswordKey);
     return settings;
@@ -33,4 +35,14 @@ exports.validateServerSettings = async (settings) => {
             error: err
         }
     }
+};
+
+exports.saveJobSettings = async (settings) => {
+    await localStore.set(jobSettingsStoreKey, settings);
+    cachedJobSettings = settings;
+};
+
+exports.getJobSettings = async () => {
+    if (cachedJobSettings) return cachedJobSettings;
+    return await localStore.get(jobSettingsStoreKey);
 };

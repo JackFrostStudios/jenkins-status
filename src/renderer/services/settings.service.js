@@ -9,6 +9,14 @@ exports.setServerSettings = settings => {
     ipcService.invoke(ipcChannels.setServerSettingsChannel, settings);
 };
 
-exports.validateSettings = async settings => {
+exports.validateServerSettings = async settings => {
     return await ipcService.invoke(ipcChannels.validateServerSettingsChannel, settings);
+};
+
+exports.getJobSettings = async () => {
+    return await ipcService.invoke(ipcChannels.getJobSettingsChannel);
+};
+
+exports.setJobSettings = settings => {
+    ipcService.invoke(ipcChannels.setJobSettingsChannel, settings);
 };
