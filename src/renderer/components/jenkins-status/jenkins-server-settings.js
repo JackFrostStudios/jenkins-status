@@ -65,12 +65,13 @@ customElements.define('jfs-jenkins-server-settings', class extends HTMLElement {
             </form>
         `;
 
+        this.addEventListener('refresh', this._refreshForm);
         this.$form.addEventListener("submit", this._onFormSubmit, true);
-        let settings = await settingsService.getServerSettings();
-        this._setFormValues(settings);
+        await this._refreshForm();
     }
 
     disconnectedCallback() {
+        this.removeEventListener('refresh', this._refreshForm);
         this.$form.removeEventListener("submit", this._onFormSubmit, true);
     }
 
@@ -117,6 +118,14 @@ customElements.define('jfs-jenkins-server-settings', class extends HTMLElement {
             this.$notification.setAttribute('data-level', 'error');
             this.$notification.setAttribute('data-message', error);
         }
+    }
+
+    _refreshForm = async () => {
+        let settings = await settingsService.getServerSettings();
+        this._setFormValues(settings);
+        this._enableSubmit();
+        this._hideNotification();
+        this._setSaveInProgress(false);
     }
 
     _startSave() {

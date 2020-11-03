@@ -1,4 +1,13 @@
+const $ = require('jquery');
 customElements.define('jfs-jenkins-status', class extends HTMLElement {    
+    get $serverSettingsLink() {
+        return $('#server-settings-tab');
+    }
+
+    get $jenkinsServerSettings() {
+        return this.querySelector('jfs-jenkins-server-settings');
+    }
+
     constructor() {
         super();
     }
@@ -28,6 +37,15 @@ customElements.define('jfs-jenkins-status', class extends HTMLElement {
                 </div>
             </div>
         `;
+        this.$serverSettingsLink.on('show.bs.tab hidden.bs.tab', this._refreshServerSettings);
+    }
+
+    disconnectedCallback() {
+        this.$serverSettingsLink.off('show.bs.tab hidden.bs.tab', this._refreshServerSettings);
+    }
+
+    _refreshServerSettings = () => {
+        this.$jenkinsServerSettings.dispatchEvent(new Event('refresh'));
     }
 
     
