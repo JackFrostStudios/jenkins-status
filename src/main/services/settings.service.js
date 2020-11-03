@@ -1,5 +1,6 @@
 const localStore = require('./local-store.service');
 const secureStore = require('./secure-store.service');
+const jenkinsService = require('./jenkins.service');
 
 const serverSettingsStoreKey = "server-settings";
 const serverSettingsPasswordKey = "jenkins-server-password";
@@ -14,3 +15,18 @@ exports.getServerSettings = async () => {
     settings.password = await secureStore.get(serverSettingsPasswordKey);
     return settings;
 }
+
+exports.validateServerSettings = async (settings) => {
+    try {
+        await jenkinsService.getNode(settings);
+        return {
+            valid: true,
+            error: ""
+        };
+    } catch (err) {
+        return {
+            valid: false,
+            error: err
+        }
+    }
+};

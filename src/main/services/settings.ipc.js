@@ -9,3 +9,7 @@ ipcService.handle(ipcChannels.setServerSettingsChannel, (event, args) => {
 ipcService.handle(ipcChannels.getServerSettingsChannel, async (event, args) => {
     return await settingsService.getServerSettings();
 });
+
+ipcService.handle(ipcChannels.validateServerSettingsChannel, async (event, args) => {
+    return await settingsService.validateServerSettings(args);
+});

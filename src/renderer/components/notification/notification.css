@@ -1,0 +1,6 @@
+jfs-notification .alert {
+    display: none;
+}
+jfs-notification .show-notification {
+    display: block;
+}

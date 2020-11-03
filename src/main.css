@@ -1,5 +1,6 @@
 @import './styles/fonts/fonts.css';
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import './renderer/components/components.css';
 
 * {
     font-family: 'Poppins';
@@ -8,6 +9,6 @@
 }
 
 html, body {
-    height: 100vh;
-    width: 100vw;   
+    height: 100%;
+    width: 100%;   
 }
