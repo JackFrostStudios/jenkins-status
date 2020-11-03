@@ -33,6 +33,10 @@ customElements.define('jfs-jenkins-job-settings', class extends HTMLElement {
     get $submitButton() {
         return this.querySelector('#jenkins-job-settings-submit-btn');
     }
+    
+    get $notification() {
+        return this.querySelector('#jenkins-job-settings-form-notification');
+    }
 
     constructor() {
         super();
@@ -53,16 +57,17 @@ customElements.define('jfs-jenkins-job-settings', class extends HTMLElement {
                         </div>
                         <div id="jenkins-job-form-contents">
                             <div id="jenkins-job-form-contents-no-jobs">
-                                <jfs-notification id="jenkins-job-settings-form-notification" class="mt-2 mb-2" data-level="error" data-message="No Jobs retreived from the Jenkins server."></jfs-notification>
+                                <jfs-notification class="mt-2 mb-2" data-level="error" data-message="No Jobs retreived from the Jenkins server."></jfs-notification>
                             </div>
                             <div id="jenkins-job-form-contents-jobs">
                                 <div id="jenkins-job-details" class="mb-4">
                                 </div>
+                                <jfs-notification id="jenkins-job-settings-form-notification" class="mt-2 mb-2"></jfs-notification>
                                 <button type="submit" class="btn btn-primary" id="jenkins-job-settings-submit-btn">
                                     <div id="jenkins-job-settings-submit-save-btn-text">
                                         Save
                                     </div>
-                                    <div id="jenkins-job-settings-submit-saving-btn-text" style="display: none;">
+                                    <div id="jenkins-job-settings-submit-saving-btn-text">
                                         <span class="spinner-border spinner-border-sm mb-1" role="status" aria-hidden="true"></span>
                                         Saving...
                                     <div>
@@ -92,6 +97,7 @@ customElements.define('jfs-jenkins-job-settings', class extends HTMLElement {
         this._setSaveInProgress(false);
         this._enableSubmit();
         this._setLoading(false);
+        this._hideNotification();
     };
 
     _setLoading(loading) {
@@ -162,6 +168,16 @@ customElements.define('jfs-jenkins-job-settings', class extends HTMLElement {
         this.$submitButton.disabled = false;
     }
 
+    _hideNotification() {
+        this.$notification.removeAttribute('data-message');
+        this.$notification.removeAttribute('data-level');
+    }
+
+    _showNotifiction() {
+        this.$notification.setAttribute('data-message', 'Save Successful.');
+        this.$notification.setAttribute('data-level', 'success');
+    }
+
     _setSaveInProgress(saveInProgress) {
         const $saveText = this.querySelector('#jenkins-job-settings-submit-save-btn-text');
         const $savingText = this.querySelector('#jenkins-job-settings-submit-saving-btn-text');
@@ -172,11 +188,13 @@ customElements.define('jfs-jenkins-job-settings', class extends HTMLElement {
     _startSave() {
         this._setSaveInProgress(true);
         this._disableSubmit();
+        this._hideNotification();
     }
 
     _finishSave() {
         this._setSaveInProgress(false);
         this._enableSubmit();
+        this._showNotifiction();
     }
 
     _onFormSubmit = async (evt) => {
