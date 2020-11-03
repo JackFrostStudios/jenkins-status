@@ -62,7 +62,7 @@ customElements.define('jfs-jenkins-job-settings', class extends HTMLElement {
                             <div id="jenkins-job-form-contents-jobs">
                                 <div id="jenkins-job-details" class="mb-4">
                                 </div>
-                                <jfs-notification id="jenkins-job-settings-form-notification" class="mt-2 mb-2"></jfs-notification>
+                                <jfs-notification id="jenkins-job-settings-form-notification" class="mt-2 mb-2" data-fade></jfs-notification>
                                 <button type="submit" class="btn btn-primary" id="jenkins-job-settings-submit-btn">
                                     <div id="jenkins-job-settings-submit-save-btn-text">
                                         Save
@@ -161,7 +161,6 @@ customElements.define('jfs-jenkins-job-settings', class extends HTMLElement {
 
     _disableSubmit() {
         this.$submitButton.disabled = true;
-
     }
 
     _enableSubmit() {

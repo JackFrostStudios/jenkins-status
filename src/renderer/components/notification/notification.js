@@ -3,6 +3,10 @@ customElements.define('jfs-notification', class extends HTMLElement {
         return ['data-level', 'data-message'];
     }
 
+    get $alert() {
+        return this.querySelector('.alert');
+    }
+
     get message() {
         return this.getAttribute('data-message') ?? "";
     }
@@ -10,6 +14,12 @@ customElements.define('jfs-notification', class extends HTMLElement {
     get alertLevel() {
         return this.getAttribute('data-level') ?? "";
     }
+
+    get fadeEnabled() {
+        return this.hasAttribute('data-fade');
+    }
+
+    _fadeTimeout = null;
     
     constructor() {
         super();
@@ -27,10 +37,11 @@ customElements.define('jfs-notification', class extends HTMLElement {
 
     _render() {
         this.innerHTML = `
-        <div class="alert ${this._getNotificationLevelClass()} ${this._getDisplayClass()}">
+        <div class="alert ${this._getNotificationLevelClass()} ${this._getDisplayClass()} ${this.fadeEnabled ? 'fade-notification' : ''}">
             ${this.message}
         </div>
         `;
+        this._fade();
     }
 
     _getNotificationLevelClass() {
@@ -45,6 +56,20 @@ customElements.define('jfs-notification', class extends HTMLElement {
     }
 
     _getDisplayClass() {
-        return this.message === "" ? 'hide-notification' : 'show-notification';
+        return this.message === "" ? '' : 'show-notification';
+    }
+
+    _fade() {
+        if (this._fadeTimeout) clearTimeout(this._fadeTimeout);
+        if (this.message !== "" && this.fadeEnabled) {
+            this._fadeTimeout = setTimeout(() => {
+                this._removeShowNotification();
+                this._fadeTimeout = null;
+            }, 6000);
+        }
+    }
+
+    _removeShowNotification() {
+        this.$alert.classList.remove('show-notification');
     }
 });

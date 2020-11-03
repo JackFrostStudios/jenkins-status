@@ -50,7 +50,7 @@ customElements.define('jfs-jenkins-server-settings', class extends HTMLElement {
                             <label for="jenkins-settings-password">Password</label>
                             <input type="password" class="form-control" id="jenkins-settings-password" required>
                         </div>
-                        <jfs-notification id="jenkins-settings-form-notification" class="mt-2 mb-2"></jfs-notification>
+                        <jfs-notification id="jenkins-settings-form-notification" class="mt-2 mb-2" data-fade></jfs-notification>
                         <button type="submit" class="btn btn-primary" id="jenkins-settings-submit-btn">
                             <div id="jenkins-settings-submit-save-btn-text">
                                 Save
