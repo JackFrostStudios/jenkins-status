@@ -28,7 +28,7 @@ exports.get = async (url, headers) => {
         headers.forEach(({name, value}) => {
             request.setHeader(name, value);
         });
-        result = "";
+        let result = "";
         request.on('response', (response) => {
             logEvent("RESPONSE", {
                 statusCode: response.statusCode,

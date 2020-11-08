@@ -1,11 +1,19 @@
 const $ = require('jquery');
 customElements.define('jfs-jenkins-status', class extends HTMLElement {    
+    get $statusLink() {
+        return $('#status-tab');
+    }
+
     get $serverSettingsLink() {
         return $('#server-settings-tab');
     }
 
     get $jobSettingsLink() {
         return $('#job-settings-tab');
+    }
+
+    get $status() {
+        return this.querySelector('jfs-jenkins-job-status');
     }
 
     get $serverSettings() {
@@ -39,7 +47,7 @@ customElements.define('jfs-jenkins-status', class extends HTMLElement {
                 <div class="card-body">
                     <div class="tab-content" id="status-tab-content">
                         <div class="tab-pane fade show active" id="status" role="tabpanel" aria-labelledby="status-tab">
-                            <h2>No Project Configured</h2>
+                            <jfs-jenkins-job-status></jfs-jenkins-job-status>
                         </div>
                         <div class="tab-pane fade" id="server-settings" role="tabpanel" aria-labelledby="server-settings-tab">
                             <jfs-jenkins-server-settings></jfs-jenkins-server-settings>
@@ -51,15 +59,21 @@ customElements.define('jfs-jenkins-status', class extends HTMLElement {
                 </div>
             </div>
         `;
-        this.$serverSettingsLink.on('show.bs.tab hidden.bs.tab', this._refreshServerSettings);
+        this.$statusLink.on('show.bs.tab hidden.bs.tab', this._refreshStatus);
+        this.$jobSettingsLink.on('show.bs.tab hidden.bs.tab', this._refreshJobSettings);
         this.$jobSettingsLink.on('show.bs.tab hidden.bs.tab', this._refreshJobSettings);
     }
 
     disconnectedCallback() {
+        this.$statusLink.off('show.bs.tab hidden.bs.tab', this._refreshStatus);
         this.$serverSettingsLink.off('show.bs.tab hidden.bs.tab', this._refreshServerSettings);
         this.$jobSettingsLink.off('show.bs.tab hidden.bs.tab', this._refreshJobSettings);
     }
 
+    _refreshStatus = () => {
+        this.$status.dispatchEvent(new Event('refresh'));
+    }
+    
     _refreshServerSettings = () => {
         this.$serverSettings.dispatchEvent(new Event('refresh'));
     }
