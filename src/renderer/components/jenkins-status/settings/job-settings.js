@@ -120,8 +120,8 @@ customElements.define('jfs-jenkins-job-settings', class extends HTMLElement {
 
     _getJobDetailsDisplay(job, id, settings) {
         const setting = settings ? settings.jobs.filter(s => s.name === job.name)[0] : {};
-        const display = setting.display === true;
-        const notifications = setting.notifications === true;
+        const display = setting && setting.display === true;
+        const notifications = setting && setting.notifications === true;
         return `
         <div id="job-${id}-settings" class="job-detail-settings row border-bottom border-light mb-4" data-job-id="${id}" data-job-name="${job.name}" data-job-url="${job.url}">
             <div class="col-12 col-md-5">
